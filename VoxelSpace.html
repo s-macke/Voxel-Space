@@ -7,7 +7,7 @@
     <meta name="author" content="Sebastian Macke">
     <meta name="keywords" content="Voxel, VoxelSpace, Voxel Space, Comanche, landscape, rendering">
     <style>
-        html, body {margin: 0; height: 100%; overflow: hidden}
+        html, body { margin: 0; height: 100%; overflow: hidden }
         canvas { width: 100%; height: 100%; }
         a { color: white; }
         #info {
@@ -15,535 +15,498 @@
             top: 0px;
             width: 100%;
             padding: 5px;
-            z-index:100;
+            z-index: 100;
             color: white;
             font-family: "Arial", Times, serif;
             font-size: 120%;
-            }
+        }
         #fps {
             float: right;
             position: absolute;
             top: 0px;
             right: 10px;
-            z-index:100;
+            z-index: 100;
             padding: 5px;
             color: white;
             font-family: "Arial", Times, serif;
             font-size: 120%;
-            }
+        }
     </style>
 </head>
 
 <body scroll="no">
 
-<div id="fps">
-</div>
+    <div id="fps">
+    </div>
 
-<div id="info">
-    Fly controls
-    <b>WASD</b> or <b>Cursor Keys</b> or <b>left click</b> move, <b>R|F</b> up | down, <b>Q|E</b> pitch,
-<br>
+    <div id="info">
+        Fly controls
+        <b>WASD</b> or <b>Cursor Keys</b> or <b>left click</b> move, <b>R|F</b> up | down, <b>Q|E</b> pitch,
+        <br>
 
-<select name="Mapselector" size="1" onchange="LoadMap(this.value);" value="C1W;D1">
-<option value="C1W;D1">Map C1W</option>
-<option value="C2W;D2">Map C2W</option>
-<option value="C3;D3">Map C3</option>
-<option value="C4;D4">Map C4</option>
-<option value="C5W;D5">Map C5W</option>
-<option value="C6W;D6">Map C6W</option>
-<option value="C7W;D7">Map C7W</option>
-<option value="C8;D6">Map C8</option>
-<option value="C9W;D9">Map C9W</option>
-<option value="C10W;D10">Map C10W</option>
-<option value="C11W;D11">Map C11W</option>
-<option value="C12W;D11">Map C12W</option>
-<option value="C13;D13">Map C13</option>
-<option value="C14;D14">Map C14</option>
-<option value="C14W;D14">Map C14W</option>
-<option value="C15;D15">Map C15</option>
-<option value="C16W;D16">Map C16W</option>
-<option value="C17W;D17">Map C17W</option>
-<option value="C18W;D18">Map C18W</option>
-<option value="C19W;D19">Map C19W</option>
-<option value="C20W;D20">Map C20W</option>
-<option value="C21;D21">Map C21</option>
-<option value="C22W;D22">Map C22W</option>
-<option value="C23W;D21">Map C23W</option>
-<option value="C24W;D24">Map C24W</option>
-<option value="C25W;D25">Map C25W</option>
-<option value="C26W;D18">Map C26W</option>
-<option value="C27W;D15">Map C27W</option>
-<option value="C28W;D25">Map C28W</option>
-<option value="C29W;D16">Map C29W</option>
-</select>
+        <select name="Mapselector" size="1" onchange="LoadMap(this.value);" value="C1W;D1">
+            <option value="C1W;D1">Map C1W</option>
+            <option value="C2W;D2">Map C2W</option>
+            <option value="C3;D3">Map C3</option>
+            <option value="C4;D4">Map C4</option>
+            <option value="C5W;D5">Map C5W</option>
+            <option value="C6W;D6">Map C6W</option>
+            <option value="C7W;D7">Map C7W</option>
+            <option value="C8;D6">Map C8</option>
+            <option value="C9W;D9">Map C9W</option>
+            <option value="C10W;D10">Map C10W</option>
+            <option value="C11W;D11">Map C11W</option>
+            <option value="C12W;D11">Map C12W</option>
+            <option value="C13;D13">Map C13</option>
+            <option value="C14;D14">Map C14</option>
+            <option value="C14W;D14">Map C14W</option>
+            <option value="C15;D15">Map C15</option>
+            <option value="C16W;D16">Map C16W</option>
+            <option value="C17W;D17">Map C17W</option>
+            <option value="C18W;D18">Map C18W</option>
+            <option value="C19W;D19">Map C19W</option>
+            <option value="C20W;D20">Map C20W</option>
+            <option value="C21;D21">Map C21</option>
+            <option value="C22W;D22">Map C22W</option>
+            <option value="C23W;D21">Map C23W</option>
+            <option value="C24W;D24">Map C24W</option>
+            <option value="C25W;D25">Map C25W</option>
+            <option value="C26W;D18">Map C26W</option>
+            <option value="C27W;D15">Map C27W</option>
+            <option value="C28W;D25">Map C28W</option>
+            <option value="C29W;D16">Map C29W</option>
+        </select>
 
-<label for="distancerange">Distance</label>
-<input id="distancerange" type="range" min="100" max="2000" step="1" onchange="camera.distance = this.value">
+        <label for="distancerange">Distance</label>
+        <input id="distancerange" type="range" min="100" max="2000" step="1" onchange="camera.distance = this.value">
 
-<a href="https://github.com/s-macke/VoxelSpace">Github project page</a>
+        <a href="https://github.com/s-macke/VoxelSpace">Github project page</a>
 
-</div>
+    </div>
 
-<canvas id="fullscreenCanvas" width="800" height="400">
-    Your browser does not support the canvas element.
-</canvas>
+    <canvas id="fullscreenCanvas" width="800" height="400">
+        Your browser does not support the canvas element.
+    </canvas>
 
-<script>
-"use strict";
+    <script>
+        "use strict";
 
-// ---------------------------------------------
-// Viewer information
+        // ---------------------------------------------
+        // Viewer information
 
-var camera =
-{
-    x:        512., // x position on the map
-    y:        800., // y position on the map
-    height:    78., // height of the camera
-    angle:      0., // direction of the camera
-    horizon:  100., // horizon position (look up and down)
-    distance: 800   // distance of map
-};
+        var camera = {
+            x: 512., // x position on the map
+            y: 800., // y position on the map
+            height: 78., // height of the camera
+            angle: 0., // direction of the camera
+            horizon: 100., // horizon position (look up and down)
+            distance: 800   // distance of map
+        };
 
-// ---------------------------------------------
-// Landscape data
+        // ---------------------------------------------
+        // Landscape data
 
-var map =
-{
-    width:    1024,
-    height:   1024,
-    shift:    10,  // power of two: 2^10 = 1024
-    altitude: new Uint8Array(1024*1024), // 1024 * 1024 byte array with height information
-    color:    new Uint32Array(1024*1024) // 1024 * 1024 int array with RGB colors
-};
+        var map = {
+            width: 1024,
+            height: 1024,
+            shift: 10,  // power of two: 2^10 = 1024
+            altitude: new Uint8Array(1024 * 1024), // 1024 * 1024 byte array with height information
+            color: new Uint32Array(1024 * 1024) // 1024 * 1024 int array with RGB colors
+        };
 
-// ---------------------------------------------
-// Screen data
+        // ---------------------------------------------
+        // Screen data
 
-var screendata =
-{
-    canvas:    null,
-    context:   null,
-    imagedata: null,
+        var screendata = {
+            canvas: null,
+            context: null,
+            imagedata: null,
 
-    bufarray:  null, // color data
-    buf8:      null, // the same array but with bytes
-    buf32:     null, // the same array but with 32-Bit words
+            bufarray: null, // color data
+            buf8: null, // the same array but with bytes
+            buf32: null, // the same array but with 32-Bit words
 
-    backgroundcolor: 0xFFE09090
-};
+            backgroundcolor: 0xFFE09090
+        };
 
-// ---------------------------------------------
-// Keyboard and mouse interaction
+        // ---------------------------------------------
+        // Keyboard and mouse interaction
 
-var input =
-{
-    forwardbackward: 0,
-    leftright:       0,
-    updown:          0,
-    lookup:          false,
-    lookdown:        false,
-    mouseposition:   null,
-    keypressed:      false
-}
-
-var updaterunning = false;
-
-var time = new Date().getTime();
-
-
-// for fps display
-var timelastframe = new Date().getTime();
-var frames = 0;
-
-// Update the camera for next frame. Dependent on keypresses
-function UpdateCamera()
-{
-    var current = new Date().getTime();
-
-    input.keypressed = false;
-    if (input.leftright != 0)
-    {
-        camera.angle += input.leftright*0.1*(current-time)*0.03;
-        input.keypressed = true;
-    }
-    if (input.forwardbackward != 0)
-    {
-        camera.x -= input.forwardbackward * Math.sin(camera.angle) * (current-time)*0.03;
-        camera.y -= input.forwardbackward * Math.cos(camera.angle) * (current-time)*0.03;
-        input.keypressed = true;
-    }
-    if (input.updown != 0)
-    {
-        camera.height += input.updown * (current-time)*0.03;
-        input.keypressed = true;
-    }
-    if (input.lookup)
-    {
-        camera.horizon += 2 * (current-time)*0.03;
-        input.keypressed = true;
-    }
-    if (input.lookdown)
-    {
-        camera.horizon -= 2 * (current-time)*0.03;
-        input.keypressed = true;
-    }
-
-    // Collision detection. Don't fly below the surface.
-    var mapoffset = ((Math.floor(camera.y) & (map.width-1)) << map.shift) + (Math.floor(camera.x) & (map.height-1))|0;
-    if ((map.altitude[mapoffset]+10) > camera.height) camera.height = map.altitude[mapoffset] + 10;
-
-    time = current;
-
-}
-
-// ---------------------------------------------
-// Keyboard and mouse event handlers
-// ---------------------------------------------
-// Keyboard and mouse event handlers
-
-function GetMousePosition(e)
-{
-    // fix for Chrome
-    if (e.type.startsWith('touch'))
-    {
-        return [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
-    } else
-    {
-        return [e.pageX, e.pageY];
-    }
-}
-
-
-function DetectMouseDown(e)
-{
-    input.forwardbackward = 3.;
-    input.mouseposition = GetMousePosition(e);
-    time = new Date().getTime();
-
-    if (!updaterunning) Draw();
-    return;
-}
-
-function DetectMouseUp()
-{
-    input.mouseposition = null;
-    input.forwardbackward = 0;
-    input.leftright = 0;
-    input.updown = 0;
-    return;
-}
-
-function DetectMouseMove(e)
-{
-    e.preventDefault();
-    if (input.mouseposition == null) return;
-    if (input.forwardbackward == 0) return;
-
-    var currentMousePosition = GetMousePosition(e);
-
-    input.leftright = (input.mouseposition[0] - currentMousePosition[0]) / window.innerWidth * 2;
-    camera.horizon  = 100 + (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 500;
-    input.updown    = (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 10;
-}
-
-
-function DetectKeysDown(e)
-{
-    switch(e.keyCode)
-    {
-    case 37:    // left cursor
-    case 65:    // a
-        input.leftright = +1.;
-        break;
-    case 39:    // right cursor
-    case 68:    // d
-        input.leftright = -1.;
-        break;
-    case 38:    // cursor up
-    case 87:    // w
-        input.forwardbackward = 3.;
-        break;
-    case 40:    // cursor down
-    case 83:    // s
-        input.forwardbackward = -3.;
-        break;
-    case 82:    // r
-        input.updown = +2.;
-        break;
-    case 70:    // f
-        input.updown = -2.;
-        break;
-    case 69:    // e
-        input.lookup = true;
-        break;
-    case 81:    //q
-        input.lookdown = true;
-        break;
-    default:
-        return;
-        break;
-    }
-
-    if (!updaterunning) {
-        time = new Date().getTime();
-        Draw();
-    }
-    return false;
-}
-
-function DetectKeysUp(e)
-{
-    switch(e.keyCode)
-    {
-    case 37:    // left cursor
-    case 65:    // a
-        input.leftright = 0;
-        break;
-    case 39:    // right cursor
-    case 68:    // d
-        input.leftright = 0;
-        break;
-    case 38:    // cursor up
-    case 87:    // w
-        input.forwardbackward = 0;
-        break;
-    case 40:    // cursor down
-    case 83:    // s
-        input.forwardbackward = 0;
-        break;
-    case 82:    // r
-        input.updown = 0;
-        break;
-    case 70:    // f
-        input.updown = 0;
-        break;
-    case 69:    // e
-        input.lookup = false;
-        break;
-    case 81:    //q
-        input.lookdown = false;
-        break;
-    default:
-        return;
-        break;
-    }
-    return false;
-}
-
-// ---------------------------------------------
-// Fast way to draw vertical lines
-
-function DrawVerticalLine(x, ytop, ybottom, col)
-{
-    x = x|0;
-    ytop = ytop|0;
-    ybottom = ybottom|0;
-    col = col|0;
-    var buf32 = screendata.buf32;
-    var screenwidth = screendata.canvas.width|0;
-    if (ytop < 0) ytop = 0;
-    if (ytop > ybottom) return;
-
-    // get offset on screen for the vertical line
-    var offset = ((ytop * screenwidth) + x)|0;
-    for (var k = ytop|0; k < ybottom|0; k=k+1|0)
-    {
-        buf32[offset|0] = col|0;
-        offset = offset + screenwidth|0;
-    }
-}
-
-// ---------------------------------------------
-// Basic screen handling
-
-function DrawBackground()
-{
-    var buf32 = screendata.buf32;
-    var color = screendata.backgroundcolor|0;
-    for (var i = 0; i < buf32.length; i++) buf32[i] = color|0;
-}
-
-// Show the back buffer on screen
-function Flip()
-{
-    screendata.imagedata.data.set(screendata.buf8);
-    screendata.context.putImageData(screendata.imagedata, 0, 0);
-}
-
-// ---------------------------------------------
-// The main render routine
-
-function Render()
-{
-    var mapwidthperiod = map.width - 1;
-    var mapheightperiod = map.height - 1;
-
-    var screenwidth = screendata.canvas.width|0;
-    var sinang = Math.sin(camera.angle);
-    var cosang = Math.cos(camera.angle);
-
-    var hiddeny = new Int32Array(screenwidth);
-    for(var i=0; i<screendata.canvas.width|0; i=i+1|0)
-        hiddeny[i] = screendata.canvas.height;
-
-    var deltaz = 1.;
-
-    // Draw from front to back
-    for(var z=1; z<camera.distance; z+=deltaz)
-    {
-        // 90 degree field of view
-        var plx =  -cosang * z - sinang * z;
-        var ply =   sinang * z - cosang * z;
-        var prx =   cosang * z - sinang * z;
-        var pry =  -sinang * z - cosang * z;
-
-        var dx = (prx - plx) / screenwidth;
-        var dy = (pry - ply) / screenwidth;
-        plx += camera.x;
-        ply += camera.y;
-        var invz = 1. / z * 240.;
-        for(var i=0; i<screenwidth|0; i=i+1|0)
-        {
-            var mapoffset = ((Math.floor(ply) & mapwidthperiod) << map.shift) + (Math.floor(plx) & mapheightperiod)|0;
-            var heightonscreen = (camera.height - map.altitude[mapoffset]) * invz + camera.horizon|0;
-            DrawVerticalLine(i, heightonscreen|0, hiddeny[i], map.color[mapoffset]);
-            if (heightonscreen < hiddeny[i]) hiddeny[i] = heightonscreen;
-            plx += dx;
-            ply += dy;
+        var input = {
+            forwardbackward: 0,
+            leftright: 0,
+            updown: 0,
+            lookup: false,
+            lookdown: false,
+            mouseposition: null,
+            keypressed: false
         }
-        deltaz += 0.005;
-    }
-}
+
+        var updaterunning = false;
+
+        var time = new Date().getTime();
 
 
-// ---------------------------------------------
-// Draw the next frame
+        // for fps display
+        var timelastframe = new Date().getTime();
+        var frames = 0;
 
-function Draw()
-{
-    updaterunning = true;
-    UpdateCamera();
-    DrawBackground();
-    Render();
-    Flip();
-    frames++;
+        // Update the camera for next frame. Dependent on keypresses
+        function UpdateCamera() {
+            var current = new Date().getTime();
 
-    if (!input.keypressed)
-    {
-        updaterunning = false;
-    } else
-    {
-        window.requestAnimationFrame(Draw, 0);
-    }
-}
+            input.keypressed = false;
+            if (input.leftright != 0) {
+                camera.angle += input.leftright * 0.1 * (current - time) * 0.03;
+                input.keypressed = true;
+            }
+            if (input.forwardbackward != 0) {
+                camera.x -= input.forwardbackward * Math.sin(camera.angle) * (current - time) * 0.03;
+                camera.y -= input.forwardbackward * Math.cos(camera.angle) * (current - time) * 0.03;
+                input.keypressed = true;
+            }
+            if (input.updown != 0) {
+                camera.height += input.updown * (current - time) * 0.03;
+                input.keypressed = true;
+            }
+            if (input.lookup) {
+                camera.horizon += 2 * (current - time) * 0.03;
+                input.keypressed = true;
+            }
+            if (input.lookdown) {
+                camera.horizon -= 2 * (current - time) * 0.03;
+                input.keypressed = true;
+            }
 
-// ---------------------------------------------
-// Init routines
+            // Collision detection. Don't fly below the surface.
+            var mapoffset = ((Math.floor(camera.y) & (map.width - 1)) << map.shift) + (Math.floor(camera.x) & (map.height - 1)) | 0;
+            if ((map.altitude[mapoffset] + 10) > camera.height) camera.height = map.altitude[mapoffset] + 10;
 
-// Util class for downloading the png
-function DownloadImagesAsync(urls) {
-    return new Promise(function(resolve, reject) {
+            time = current;
 
-        var pending = urls.length;
-        var result = [];
-        if (pending === 0) {
-            resolve([]);
+        }
+
+        // ---------------------------------------------
+        // Keyboard and mouse event handlers
+        // ---------------------------------------------
+        // Keyboard and mouse event handlers
+
+        function GetMousePosition(e) {
+            // fix for Chrome
+            if (e.type.startsWith('touch')) {
+                return [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
+            } else {
+                return [e.pageX, e.pageY];
+            }
+        }
+
+
+        function DetectMouseDown(e) {
+            input.forwardbackward = 3.;
+            input.mouseposition = GetMousePosition(e);
+            time = new Date().getTime();
+
+            if (!updaterunning) Draw();
             return;
         }
-        urls.forEach(function(url, i) {
-            var image = new Image();
-            //image.addEventListener("load", function() {
-            image.onload = function() {
-                var tempcanvas = document.createElement("canvas");
-                var tempcontext = tempcanvas.getContext("2d");
-                tempcanvas.width = map.width;
-                tempcanvas.height = map.height;
-                tempcontext.drawImage(image, 0, 0, map.width, map.height);
-                result[i] = tempcontext.getImageData(0, 0, map.width, map.height).data;
-                pending--;
-                if (pending === 0) {
-                    resolve(result);
+
+        function DetectMouseUp() {
+            input.mouseposition = null;
+            input.forwardbackward = 0;
+            input.leftright = 0;
+            input.updown = 0;
+            return;
+        }
+
+        function DetectMouseMove(e) {
+            e.preventDefault();
+            if (input.mouseposition == null) return;
+            if (input.forwardbackward == 0) return;
+
+            var currentMousePosition = GetMousePosition(e);
+
+            input.leftright = (input.mouseposition[0] - currentMousePosition[0]) / window.innerWidth * 2;
+            camera.horizon = 100 + (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 500;
+            input.updown = (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 10;
+        }
+
+
+        function DetectKeysDown(e) {
+            switch (e.keyCode) {
+                case 37:    // left cursor
+                case 65:    // a
+                    input.leftright = +1.;
+                    break;
+                case 39:    // right cursor
+                case 68:    // d
+                    input.leftright = -1.;
+                    break;
+                case 38:    // cursor up
+                case 87:    // w
+                    input.forwardbackward = 3.;
+                    break;
+                case 40:    // cursor down
+                case 83:    // s
+                    input.forwardbackward = -3.;
+                    break;
+                case 82:    // r
+                    input.updown = +2.;
+                    break;
+                case 70:    // f
+                    input.updown = -2.;
+                    break;
+                case 69:    // e
+                    input.lookup = true;
+                    break;
+                case 81:    //q
+                    input.lookdown = true;
+                    break;
+                default:
+                    return;
+                    break;
+            }
+
+            if (!updaterunning) {
+                time = new Date().getTime();
+                Draw();
+            }
+            return false;
+        }
+
+        function DetectKeysUp(e) {
+            switch (e.keyCode) {
+                case 37:    // left cursor
+                case 65:    // a
+                    input.leftright = 0;
+                    break;
+                case 39:    // right cursor
+                case 68:    // d
+                    input.leftright = 0;
+                    break;
+                case 38:    // cursor up
+                case 87:    // w
+                    input.forwardbackward = 0;
+                    break;
+                case 40:    // cursor down
+                case 83:    // s
+                    input.forwardbackward = 0;
+                    break;
+                case 82:    // r
+                    input.updown = 0;
+                    break;
+                case 70:    // f
+                    input.updown = 0;
+                    break;
+                case 69:    // e
+                    input.lookup = false;
+                    break;
+                case 81:    //q
+                    input.lookdown = false;
+                    break;
+                default:
+                    return;
+                    break;
+            }
+            return false;
+        }
+
+        // ---------------------------------------------
+        // Fast way to draw vertical lines
+
+        function DrawVerticalLine(x, ytop, ybottom, col) {
+            x = x | 0;
+            ytop = ytop | 0;
+            ybottom = ybottom | 0;
+            col = col | 0;
+            var buf32 = screendata.buf32;
+            var screenwidth = screendata.canvas.width | 0;
+            if (ytop < 0) ytop = 0;
+            if (ytop > ybottom) return;
+
+            // get offset on screen for the vertical line
+            var offset = ((ytop * screenwidth) + x) | 0;
+            for (var k = ytop | 0; k < ybottom | 0; k = k + 1 | 0) {
+                buf32[offset | 0] = col | 0;
+                offset = offset + screenwidth | 0;
+            }
+        }
+
+        // ---------------------------------------------
+        // Basic screen handling
+
+        function DrawBackground() {
+            var buf32 = screendata.buf32;
+            var color = screendata.backgroundcolor | 0;
+            for (var i = 0; i < buf32.length; i++) buf32[i] = color | 0;
+        }
+
+        // Show the back buffer on screen
+        function Flip() {
+            screendata.imagedata.data.set(screendata.buf8);
+            screendata.context.putImageData(screendata.imagedata, 0, 0);
+        }
+
+        // ---------------------------------------------
+        // The main render routine
+
+        function Render() {
+            var mapwidthperiod = map.width - 1;
+            var mapheightperiod = map.height - 1;
+
+            var screenwidth = screendata.canvas.width | 0;
+            var sinang = Math.sin(camera.angle);
+            var cosang = Math.cos(camera.angle);
+
+            var hiddeny = new Int32Array(screenwidth);
+            for (var i = 0; i < screendata.canvas.width | 0; i = i + 1 | 0)
+                hiddeny[i] = screendata.canvas.height;
+
+            var deltaz = 1.;
+
+            // Draw from front to back
+            for (var z = 1; z < camera.distance; z += deltaz) {
+                // 90 degree field of view
+                var plx = -cosang * z - sinang * z;
+                var ply = sinang * z - cosang * z;
+                var prx = cosang * z - sinang * z;
+                var pry = -sinang * z - cosang * z;
+
+                var dx = (prx - plx) / screenwidth;
+                var dy = (pry - ply) / screenwidth;
+                plx += camera.x;
+                ply += camera.y;
+                var invz = 1. / z * 240.;
+                for (var i = 0; i < screenwidth | 0; i = i + 1 | 0) {
+                    var mapoffset = ((Math.floor(ply) & mapwidthperiod) << map.shift) + (Math.floor(plx) & mapheightperiod) | 0;
+                    var heightonscreen = (camera.height - map.altitude[mapoffset]) * invz + camera.horizon | 0;
+                    DrawVerticalLine(i, heightonscreen | 0, hiddeny[i], map.color[mapoffset]);
+                    if (heightonscreen < hiddeny[i]) hiddeny[i] = heightonscreen;
+                    plx += dx;
+                    ply += dy;
                 }
-            };
-            image.src = url;
-        });
-    });
-}
+                deltaz += 0.005;
+            }
+        }
 
-function LoadMap(filenames)
-{
-    var files = filenames.split(";");
-    DownloadImagesAsync(["maps/"+files[0]+".png", "maps/"+files[1]+".png"]).then(OnLoadedImages);
-}
 
-function OnLoadedImages(result)
-{
-    var datac = result[0];
-    var datah = result[1];
-    for(var i=0; i<map.width*map.height; i++)
-    {
-        map.color[i] = 0xFF000000 | (datac[(i<<2) + 2] << 16) | (datac[(i<<2) + 1] << 8) | datac[(i<<2) + 0];
-        map.altitude[i] = datah[i<<2];
-    }
-    Draw();
-}
+        // ---------------------------------------------
+        // Draw the next frame
 
-function OnResizeWindow()
-{
-    screendata.canvas = document.getElementById('fullscreenCanvas');
+        function Draw() {
+            updaterunning = true;
+            UpdateCamera();
+            DrawBackground();
+            Render();
+            Flip();
+            frames++;
 
-    var aspect = window.innerWidth / window.innerHeight;
+            if (!input.keypressed) {
+                updaterunning = false;
+            } else {
+                window.requestAnimationFrame(Draw, 0);
+            }
+        }
 
-    screendata.canvas.width = window.innerWidth<800?window.innerWidth:800;
-    screendata.canvas.height = screendata.canvas.width / aspect;
+        // ---------------------------------------------
+        // Init routines
 
-    if (screendata.canvas.getContext)
-    {
-        screendata.context = screendata.canvas.getContext('2d');
-        screendata.imagedata = screendata.context.createImageData(screendata.canvas.width, screendata.canvas.height);
-    }
+        // Util class for downloading the png
+        function DownloadImagesAsync(urls) {
+            return new Promise(function (resolve, reject) {
 
-    screendata.bufarray = new ArrayBuffer(screendata.imagedata.width * screendata.imagedata.height * 4);
-    screendata.buf8     = new Uint8Array(screendata.bufarray);
-    screendata.buf32    = new Uint32Array(screendata.bufarray);
-    Draw();
-}
+                var pending = urls.length;
+                var result = [];
+                if (pending === 0) {
+                    resolve([]);
+                    return;
+                }
+                urls.forEach(function (url, i) {
+                    var image = new Image();
+                    //image.addEventListener("load", function() {
+                    image.onload = function () {
+                        var tempcanvas = document.createElement("canvas");
+                        var tempcontext = tempcanvas.getContext("2d");
+                        tempcanvas.width = map.width;
+                        tempcanvas.height = map.height;
+                        tempcontext.drawImage(image, 0, 0, map.width, map.height);
+                        result[i] = tempcontext.getImageData(0, 0, map.width, map.height).data;
+                        pending--;
+                        if (pending === 0) {
+                            resolve(result);
+                        }
+                    };
+                    image.src = url;
+                });
+            });
+        }
 
-function Init()
-{
-    for(var i=0; i<map.width*map.height; i++)
-    {
-        map.color[i] = 0xFF007050;
-        map.altitude[i] = 0;
-    }
+        function LoadMap(filenames) {
+            var files = filenames.split(";");
+            DownloadImagesAsync(["maps/" + files[0] + ".png", "maps/" + files[1] + ".png"]).then(OnLoadedImages);
+        }
 
-    LoadMap("C1W;D1");
-    OnResizeWindow();
+        function OnLoadedImages(result) {
+            var datac = result[0];
+            var datah = result[1];
+            for (var i = 0; i < map.width * map.height; i++) {
+                map.color[i] = 0xFF000000 | (datac[(i << 2) + 2] << 16) | (datac[(i << 2) + 1] << 8) | datac[(i << 2) + 0];
+                map.altitude[i] = datah[i << 2];
+            }
+            Draw();
+        }
 
-    // set event handlers for keyboard, mouse, touchscreen and window resize
-    var canvas = document.getElementById("fullscreenCanvas");
-    window.onkeydown    = DetectKeysDown;
-    window.onkeyup      = DetectKeysUp;
-    canvas.onmousedown  = DetectMouseDown;
-    canvas.onmouseup    = DetectMouseUp;
-    canvas.onmousemove  = DetectMouseMove;
-    canvas.ontouchstart = DetectMouseDown;
-    canvas.ontouchend   = DetectMouseUp;
-    canvas.ontouchmove  = DetectMouseMove;
+        function OnResizeWindow() {
+            screendata.canvas = document.getElementById('fullscreenCanvas');
 
-    window.onresize       = OnResizeWindow;
+            var aspect = window.innerWidth / window.innerHeight;
 
-    window.setInterval(function(){
-        var current = new Date().getTime();
-        document.getElementById('fps').innerText = (frames / (current-timelastframe) * 1000).toFixed(1) + " fps";
-        frames = 0;
-        timelastframe = current;
-    }, 2000);
+            screendata.canvas.width = window.innerWidth < 800 ? window.innerWidth : 800;
+            screendata.canvas.height = screendata.canvas.width / aspect;
 
-}
+            if (screendata.canvas.getContext) {
+                screendata.context = screendata.canvas.getContext('2d');
+                screendata.imagedata = screendata.context.createImageData(screendata.canvas.width, screendata.canvas.height);
+            }
 
-Init();
+            screendata.bufarray = new ArrayBuffer(screendata.imagedata.width * screendata.imagedata.height * 4);
+            screendata.buf8 = new Uint8Array(screendata.bufarray);
+            screendata.buf32 = new Uint32Array(screendata.bufarray);
+            Draw();
+        }
 
-</script>
+        function Init() {
+            for (var i = 0; i < map.width * map.height; i++) {
+                map.color[i] = 0xFF007050;
+                map.altitude[i] = 0;
+            }
+
+            LoadMap("C1W;D1");
+            OnResizeWindow();
+
+            // set event handlers for keyboard, mouse, touchscreen and window resize
+            var canvas = document.getElementById("fullscreenCanvas");
+            window.onkeydown = DetectKeysDown;
+            window.onkeyup = DetectKeysUp;
+            canvas.onmousedown = DetectMouseDown;
+            canvas.onmouseup = DetectMouseUp;
+            canvas.onmousemove = DetectMouseMove;
+            canvas.ontouchstart = DetectMouseDown;
+            canvas.ontouchend = DetectMouseUp;
+            canvas.ontouchmove = DetectMouseMove;
+
+            window.onresize = OnResizeWindow;
+
+            window.setInterval(function () {
+                var current = new Date().getTime();
+                document.getElementById('fps').innerText = (frames / (current - timelastframe) * 1000).toFixed(1) + " fps";
+                frames = 0;
+                timelastframe = current;
+            }, 2000);
+
+        }
+
+        Init();
+
+    </script>
 
 </body>
