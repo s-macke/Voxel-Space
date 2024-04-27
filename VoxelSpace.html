@@ -89,7 +89,9 @@
             height: 78., // height of the camera
             angle: 0., // direction of the camera
             horizon: 0., // horizon position (look up and down)
-            distance: 800   // distance of map
+            distance: 800,   // distance of map
+            leftrightstep: 2,
+            updownstep: 10
         };
 
         // Map
@@ -202,9 +204,9 @@
 
             var currentMousePosition = GetMousePosition(e);
 
-            input.leftright = (input.mouseposition[0] - currentMousePosition[0]) / window.innerWidth * 2;
-            camera.horizon = 100 + (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 500;
-            input.updown = (input.mouseposition[1] - currentMousePosition[1]) / window.innerHeight * 10;
+            input.leftright = (input.mouseposition[0] - currentMousePosition[0]) * camera.leftrightstep;
+            input.updown = (input.mouseposition[1] - currentMousePosition[1]) * camera.updownstep;
+            camera.horizon = input.updown * 500;
         }
 
         function DetectKeysDown(e) {
@@ -420,8 +422,8 @@
             screenheight = canvas.height = window.innerHeight;
             aspect = screenwidth / screenheight;
 
-            screendata.canvas.width = window.innerWidth < 800 ? window.innerWidth : 800;
-            screendata.canvas.height = screendata.canvas.width / aspect;
+            camera.leftrightstep = 2 / screenwidth;
+            camera.updownstep = 10 / screenheight;
 
             if (canvas.getContext) {
                 screendata.context = canvas.getContext('2d');
