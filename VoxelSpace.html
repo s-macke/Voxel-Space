@@ -327,7 +327,7 @@
             for (var i = 0; i < screenwidth; i++) hiddeny[i] = screenheight;
 
             // Draw from front to back
-            for (var z = 1; z < camera.distance; z += deltaz) {
+            for (var z = 1; z < camera.distance; z++) {
                 // 90 degree field of view (point right - point left)
                 var zsinang = sinang * z;
                 var zcosang = cosang * z;
@@ -340,7 +340,7 @@
                 var dy = (pry - ply) / screenwidth;
                 plx += camera.x;
                 ply += camera.y;
-                var invz = 1. / z * 240.;
+                var invz = zstep / z;
                 for (var i = 0; i < screenwidth; i++) {
                     var mapoffset = ((Math.floor(ply) & map.mapwidthperiod) << map.shift) + (Math.floor(plx) & map.mapheightperiod);
                     var heightonscreen = (camera.height - map.altitude[mapoffset]) * invz + camera.horizon;
@@ -349,7 +349,6 @@
                     plx += dx;
                     ply += dy;
                 }
-                deltaz += 0.005;
             }
         }
 
@@ -421,6 +420,7 @@
             screenwidth = canvas.width = window.innerWidth;
             screenheight = canvas.height = window.innerHeight;
             aspect = screenwidth / screenheight;
+            zstep = camera.distance * aspect;
 
             camera.leftrightstep = 2 / screenwidth;
             camera.updownstep = 10 / screenheight;
