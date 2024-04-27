@@ -98,7 +98,9 @@
             height: 1024,
             shift: 10,  // power of two: 2^10 = 1024
             altitude: new Uint8Array(1024 * 1024), // 1024 * 1024 byte array with height information
-            color: new Uint32Array(1024 * 1024) // 1024 * 1024 int array with RGB colors
+            color: new Uint32Array(1024 * 1024), // 1024 * 1024 int array with RGB colors
+            mapwidthperiod: 0,
+            mapheightperiod: 0
         };
 
         // Screen data
@@ -338,7 +340,7 @@
                 ply += camera.y;
                 var invz = 1. / z * 240.;
                 for (var i = 0; i < screenwidth; i++) {
-                    var mapoffset = ((Math.floor(ply) & mapwidthperiod) << map.shift) + (Math.floor(plx) & mapheightperiod);
+                    var mapoffset = ((Math.floor(ply) & map.mapwidthperiod) << map.shift) + (Math.floor(plx) & map.mapheightperiod);
                     var heightonscreen = (camera.height - map.altitude[mapoffset]) * invz + camera.horizon;
                     DrawVerticalLine(i, heightonscreen | 0, hiddeny[i], map.color[mapoffset]);
                     if (heightonscreen < hiddeny[i]) hiddeny[i] = heightonscreen;
@@ -407,6 +409,8 @@
                 map.color[i] = 0xFF000000 | (datac[(i << 2) + 2] << 16) | (datac[(i << 2) + 1] << 8) | datac[(i << 2) + 0];
                 map.altitude[i] = datah[i << 2];
             }
+            map.mapwidthperiod = map.width - 1;
+            map.mapheightperiod = map.height - 1;
             Draw();
         }
 
