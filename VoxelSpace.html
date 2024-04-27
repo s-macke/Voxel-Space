@@ -113,6 +113,9 @@
 
             backgroundcolor: 0xFFE09090
         };
+        var screenwidth = 0;
+        var screenheight = 0;
+        var aspect = 1;
 
         // Keyboard and mouse interaction
         var input = {
@@ -284,7 +287,6 @@
         // ---------------------------------------------
         // Fast way to draw vertical lines
         function DrawVerticalLine(x, ytop, ybottom, col) {
-            var screenwidth = screendata.canvas.width | 0;
             if (ytop > ybottom) return;
             if (ytop < 0) ytop = 0;
 
@@ -315,7 +317,6 @@
         // The main render routine
 
         function Render() {
-            var screenwidth = screendata.canvas.width;
             var sinang = Math.sin(camera.angle);
             var cosang = Math.cos(camera.angle);
             var hiddeny = new Int32Array(screenwidth);
@@ -411,18 +412,19 @@
 
         function OnResizeWindow() {
             var canvas = screendata.canvas = document.getElementById('fullscreenCanvas');
-
-            var aspect = window.innerWidth / window.innerHeight;
+            screenwidth = canvas.width = window.innerWidth;
+            screenheight = canvas.height = window.innerHeight;
+            aspect = screenwidth / screenheight;
 
             screendata.canvas.width = window.innerWidth < 800 ? window.innerWidth : 800;
             screendata.canvas.height = screendata.canvas.width / aspect;
 
             if (canvas.getContext) {
                 screendata.context = canvas.getContext('2d');
-                screendata.imagedata = screendata.context.createImageData(screendata.canvas.width, screendata.canvas.height);
+                screendata.imagedata = screendata.context.createImageData(screenwidth, screenheight);
             }
 
-            screendata.bufarray = new ArrayBuffer(screendata.imagedata.width * screendata.imagedata.height * 4);
+            screendata.bufarray = new ArrayBuffer(screenwidth * screenheight * 4);
             screendata.buf8 = new Uint8Array(screendata.bufarray);
             screendata.buf32 = new Uint32Array(screendata.bufarray);
             Draw();
@@ -438,7 +440,7 @@
             OnResizeWindow();
 
             // set event handlers for keyboard, mouse, touchscreen and window resize
-            var canvas = document.getElementById("fullscreenCanvas");
+            var canvas = screendata.canvas;
             window.onkeydown = DetectKeysDown;
             window.onkeyup = DetectKeysUp;
             canvas.onmousedown = DetectMouseDown;
