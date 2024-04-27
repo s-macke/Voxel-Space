@@ -34,7 +34,7 @@
     </style>
 </head>
 <body scroll="no">
-    <div id="fps" />
+    <div id="fps"></div>
     <div id="info">
         Fly controls
         <b>WASD</b> or <b>Cursor Keys</b> or <b>left click</b> move, <b>R|F</b> up | down, <b>Q|E</b> pitch,
@@ -120,6 +120,7 @@
         var screenwidth = 0;
         var screenheight = 0;
         var aspect = 1;
+        var zstep = 0;
 
         // Keyboard and mouse interaction
         var input = {
