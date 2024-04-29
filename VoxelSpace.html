@@ -88,7 +88,7 @@
             y: 800., // y position on the map
             height: 78., // height of the camera
             angle: 0., // direction of the camera
-            horizon: 0., // horizon position (look up and down)
+            horizon: 100., // horizon position (look up and down)
             distance: 800,   // distance of map
             leftrightstep: 2,
             updownstep: 10
@@ -207,7 +207,7 @@
 
             input.leftright = (input.mouseposition[0] - currentMousePosition[0]) * camera.leftrightstep;
             input.updown = (input.mouseposition[1] - currentMousePosition[1]) * camera.updownstep;
-            camera.horizon = input.updown * 500;
+            camera.horizon = 100 + input.updown * 500;
         }
 
         function DetectKeysDown(e) {
